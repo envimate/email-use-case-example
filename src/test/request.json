@@ -1,0 +1,6 @@
+{
+  "sender": "senderple.com",
+  "receiver": "receiver@example.com",
+  "subject": "Hello world!",
+  "body": "Hello from Sender to Receiver!"
+}
