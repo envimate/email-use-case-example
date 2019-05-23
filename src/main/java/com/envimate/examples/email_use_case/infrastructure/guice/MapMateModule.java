@@ -25,10 +25,10 @@ import com.envimate.examples.email_use_case.infrastructure.http.MapMateFactory;
 import com.envimate.mapmate.deserialization.Deserializer;
 import com.envimate.mapmate.serialization.Serializer;
 
-public class MapMateModule extends CrudModule {
+public class MapMateModule extends EmailUsecaseModule {
     @Override
     protected void bindDependencies() {
-        bind(Serializer.class).toInstance(MapMateFactory.serializer());
-        bind(Deserializer.class).toInstance(MapMateFactory.deserializer());
+        this.bind(Serializer.class).toInstance(MapMateFactory.serializer());
+        this.bind(Deserializer.class).toInstance(MapMateFactory.deserializer());
     }
 }

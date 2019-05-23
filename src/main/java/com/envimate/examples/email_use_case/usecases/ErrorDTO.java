@@ -22,7 +22,7 @@
 package com.envimate.examples.email_use_case.usecases;
 
 import com.envimate.examples.email_use_case.validation.RequiredParameterValidator;
-import com.envimate.mapmate.validation.AggregatedValidationException;
+import com.envimate.mapmate.deserialization.validation.AggregatedValidationException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class ErrorDTO {
     public final ErrorMessage message;
 
-    public static ErrorDTO error(final ErrorMessage message) {
+    public static ErrorDTO restore(final ErrorMessage message) {
         RequiredParameterValidator.ensureNotNull(message, "message of the Error");
         return new ErrorDTO(message);
     }
@@ -55,6 +55,6 @@ public class ErrorDTO {
 
         final ErrorMessage errorMessage = ErrorMessage.errorMessage(message);
 
-        return error(errorMessage);
+        return restore(errorMessage);
     }
 }

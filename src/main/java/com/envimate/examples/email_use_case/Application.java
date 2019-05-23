@@ -22,6 +22,7 @@
 package com.envimate.examples.email_use_case;
 
 import com.envimate.examples.email_use_case.infrastructure.guice.MapMateModule;
+import com.envimate.examples.email_use_case.infrastructure.guice.ServicesModule;
 import com.envimate.examples.email_use_case.infrastructure.guice.UseCaseModule;
 import com.envimate.examples.email_use_case.infrastructure.http.HttpMateFactory;
 import com.envimate.httpmate.HttpMate;
@@ -40,7 +41,7 @@ public final class Application {
     }
 
     public static void main(final String[] args) {
-        final Injector injector = Guice.createInjector(new MapMateModule(), new UseCaseModule());
+        final Injector injector = Guice.createInjector(new MapMateModule(), new UseCaseModule(), new ServicesModule());
         final HttpMateFactory httpMateFactory = injector.getInstance(HttpMateFactory.class);
         final HttpMate httpMate = httpMateFactory.httpMate();
         PureJavaEndpoint.pureJavaEndpointFor(httpMate).listeningOnThePort(LOCAL_ENDPOINT_PORT);

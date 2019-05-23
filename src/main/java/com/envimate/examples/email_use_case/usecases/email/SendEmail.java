@@ -22,22 +22,19 @@
 package com.envimate.examples.email_use_case.usecases.email;
 
 
-public class SendEmail {
-//    private final EmailService emailService;
+import com.envimate.examples.email_use_case.services.EmailService;
+import com.google.inject.Inject;
 
-    //    @Inject if you so wish
-//    public SendEmail(final EmailService emailService) {
-    //      this.emailService = emailService;
-    //}
+public class SendEmail {
+    private final EmailService emailService;
+
+    @Inject
+    public SendEmail(final EmailService emailService) {
+        this.emailService = emailService;
+    }
 
     public Receipt sendEmail(final Email email) {
-//             final String trackingId = emailService.send(email.sender, email.receiver, email.subject, email.body);
-        System.out.printf("Sending email from %s to%s with subject %s and body%s%n",
-                email.sender,
-                email.receiver,
-                email.subject,
-                email.body
-        );
-        return Receipt.newReceipt();
+        final Receipt receipt = this.emailService.send(email.sender, email.receiver, email.subject, email.body);
+        return receipt;
     }
 }

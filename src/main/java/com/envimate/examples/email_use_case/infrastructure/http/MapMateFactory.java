@@ -22,13 +22,15 @@
 package com.envimate.examples.email_use_case.infrastructure.http;
 
 import com.envimate.examples.email_use_case.domain.Sender;
+import com.envimate.examples.email_use_case.usecases.ErrorDTO;
+import com.envimate.examples.email_use_case.usecases.ErrorMessage;
 import com.envimate.examples.email_use_case.usecases.email.SendEmail;
 import com.envimate.examples.email_use_case.validation.CustomTypeValidationException;
 import com.envimate.mapmate.deserialization.Deserializer;
+import com.envimate.mapmate.deserialization.validation.ExceptionMappingWithPropertyPath;
+import com.envimate.mapmate.deserialization.validation.ValidationError;
 import com.envimate.mapmate.filters.ClassFilters;
 import com.envimate.mapmate.serialization.Serializer;
-import com.envimate.mapmate.validation.ExceptionMappingWithPropertyPath;
-import com.envimate.mapmate.validation.ValidationError;
 import com.google.gson.Gson;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -48,7 +50,17 @@ public final class MapMateFactory {
                 .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
                 .thatAre()
                 .serializedUsingTheMethodNamed("internalValueForMapping")
+                .thatScansThePackage(ErrorMessage.class.getPackageName())
+                .forCustomPrimitives()
+                .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
+                .thatAre()
+                .serializedUsingTheMethodNamed("internalValueForMapping")
                 .thatScansThePackage(SendEmail.class.getPackageName())
+                .forDataTransferObjects()
+                .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
+                .thatAre()
+                .serializedByItsPublicFields()
+                .thatScansThePackage(ErrorDTO.class.getPackageName())
                 .forDataTransferObjects()
                 .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
                 .thatAre()

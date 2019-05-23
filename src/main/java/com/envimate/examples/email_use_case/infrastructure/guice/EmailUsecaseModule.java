@@ -21,12 +21,27 @@
 
 package com.envimate.examples.email_use_case.infrastructure.guice;
 
-import com.envimate.examples.email_use_case.usecases.email.SendEmail;
+import com.google.inject.AbstractModule;
+import com.google.inject.binder.ScopedBindingBuilder;
 
-public class UseCaseModule extends EmailUsecaseModule {
+import java.lang.reflect.Constructor;
 
+public abstract class EmailUsecaseModule extends AbstractModule {
     @Override
-    protected void bindDependencies() {
-        bindToSingleConstructor(SendEmail.class);
+    protected final void configure() {
+        super.configure();
+        this.bindDependencies();
     }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    protected ScopedBindingBuilder bindToSingleConstructor(final Class<?> aClass) {
+        final Constructor[] constructors = aClass.getConstructors();
+        if (constructors.length == 1) {
+            return this.bind(aClass).toConstructor(constructors[0]);
+        } else {
+            throw new IllegalArgumentException(String.format("%s has multiple constructors", aClass));
+        }
+    }
+
+    protected abstract void bindDependencies();
 }

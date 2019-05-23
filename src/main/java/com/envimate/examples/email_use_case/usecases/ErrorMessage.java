@@ -13,7 +13,11 @@ public final class ErrorMessage {
     private final String value;
 
     public static ErrorMessage errorMessage(final String value) {
-        String validated = LengthValidator.ensureMinLength(value, 1, "errorMessage");
+        final String validated = LengthValidator.ensureMinLength(value, 1, "errorMessage");
         return new ErrorMessage(validated);
+    }
+
+    public String internalValueForMapping() {
+        return this.value;
     }
 }

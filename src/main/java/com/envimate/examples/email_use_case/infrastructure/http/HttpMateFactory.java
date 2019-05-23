@@ -21,6 +21,7 @@
 
 package com.envimate.examples.email_use_case.infrastructure.http;
 
+import com.envimate.examples.email_use_case.usecases.ErrorDTO;
 import com.envimate.examples.email_use_case.usecases.email.SendEmail;
 import com.envimate.httpmate.HttpMate;
 import com.envimate.httpmate.HttpMateChainKeys;
@@ -28,6 +29,8 @@ import com.envimate.httpmate.http.ContentType;
 import com.envimate.httpmate.unpacking.UnsupportedContentTypeException;
 import com.envimate.httpmate.usecases.UseCaseDrivenBuilder;
 import com.envimate.mapmate.deserialization.Deserializer;
+import com.envimate.mapmate.deserialization.validation.AggregatedValidationException;
+import com.envimate.mapmate.marshalling.MarshallingType;
 import com.envimate.mapmate.serialization.Serializer;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -62,20 +65,28 @@ public final class HttpMateFactory {
                 .andRequestMethod(POST)
                 .mappingRequestsAndResponsesUsing(
                         mapMate()
-                                .mappingAllStandardContentTypes()
                                 .assumingTheDefaultContentType(ContentType.json())
-                                .bySerializingUsing(this.serializer)
-                                .andDeserializingUsing(this.deserializer)
+                                .matchingTheContentType(ContentType.json())
+                                .toTheMarshallerType(MarshallingType.json())
+                                .usingTheSerializer(this.serializer)
+                                .andTheDeserializer(this.deserializer)
                 )
                 .configured(toCreateUseCaseInstancesUsing(this.injector::getInstance))
                 .configured(toMapExceptions()
                         .ofType(UnsupportedContentTypeException.class)
                         .toResponsesUsing((exception, metaData) -> {
                             metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 415);
-                        }).ofAllRemainingTypesUsing((exception, metaData) -> {
+                        })
+                        .ofType(AggregatedValidationException.class)
+                        .toResponsesUsing((exception, metaData) -> {
+                            metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 400);
+                            metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(ErrorDTO.error(exception)));
+                        })
+                        .ofAllRemainingTypesUsing((exception, metaData) -> {
                             exception.printStackTrace();
                             metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(errorMessage(exception.getMessage())));
-                        }))
+                        })
+                )
                 .build();
     }
 }
