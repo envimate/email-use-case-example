@@ -21,12 +21,12 @@
 
 package com.envimate.examples.email_use_case.infrastructure.guice;
 
-import com.envimate.examples.email_use_case.usecases.email.SendEmail;
+import com.envimate.examples.email_use_case.usecases.email.SendEmailUseCase;
 
 public class UseCaseModule extends EmailUsecaseModule {
 
     @Override
     protected void bindDependencies() {
-        bindToSingleConstructor(SendEmail.class);
+        this.bindToSingleConstructor(SendEmailUseCase.class);
     }
 }

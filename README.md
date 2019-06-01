@@ -20,6 +20,7 @@ git checkout git@github.com:envimate/email-use-case-example.git
 2. Running the `com.envimate.examples.email_use_case.Application`
 
 This will start an http server, serving the path `/api/sendEmail`
+
 For details on how this endpoint is configured, checkout the file `com.envimate.examples.email_use_case.infrastructure.http.HttpMateFactory`
 
 

@@ -24,7 +24,7 @@ package com.envimate.examples.email_use_case.infrastructure.http;
 import com.envimate.examples.email_use_case.domain.Sender;
 import com.envimate.examples.email_use_case.usecases.ErrorDTO;
 import com.envimate.examples.email_use_case.usecases.ErrorMessage;
-import com.envimate.examples.email_use_case.usecases.email.SendEmail;
+import com.envimate.examples.email_use_case.usecases.email.SendEmailUseCase;
 import com.envimate.examples.email_use_case.validation.CustomTypeValidationException;
 import com.envimate.mapmate.deserialization.Deserializer;
 import com.envimate.mapmate.deserialization.validation.ExceptionMappingWithPropertyPath;
@@ -55,7 +55,7 @@ public final class MapMateFactory {
                 .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
                 .thatAre()
                 .serializedUsingTheMethodNamed("internalValueForMapping")
-                .thatScansThePackage(SendEmail.class.getPackageName())
+                .thatScansThePackage(SendEmailUseCase.class.getPackageName())
                 .forDataTransferObjects()
                 .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
                 .thatAre()
@@ -76,7 +76,7 @@ public final class MapMateFactory {
                 .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
                 .thatAre()
                 .deserializedUsingTheStaticMethodWithSingleStringArgument()
-                .thatScansThePackage(SendEmail.class.getPackageName())
+                .thatScansThePackage(SendEmailUseCase.class.getPackageName())
                 .forDataTransferObjects()
                 .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
                 .thatAre()

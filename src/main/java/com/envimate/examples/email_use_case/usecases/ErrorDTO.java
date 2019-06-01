@@ -28,8 +28,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.util.stream.Collectors;
-
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -42,19 +40,20 @@ public class ErrorDTO {
     }
 
     public static ErrorDTO error(final AggregatedValidationException aggregatedValidationException) {
-        final String message = aggregatedValidationException.getValidationErrors()
-                .stream()
-                .map(validationError -> {
-                            if (!validationError.propertyPath.isEmpty()) {
-                                return validationError.propertyPath + ": " + validationError.message;
-                            } else {
-                                return validationError.message;
-                            }
-                        }
-                ).collect(Collectors.joining(","));
-
-        final ErrorMessage errorMessage = ErrorMessage.errorMessage(message);
-
-        return restore(errorMessage);
+        throw new NullPointerException();
+//        final String message = aggregatedValidationException.getValidationErrors()
+//                .stream()
+//                .map(validationError -> {
+//                            if (!validationError.propertyPath.isEmpty()) {
+//                                return validationError.propertyPath + ": " + validationError.message;
+//                            } else {
+//                                return validationError.message;
+//                            }
+//                        }
+//                ).collect(Collectors.joining(","));
+//
+//        final ErrorMessage errorMessage = ErrorMessage.errorMessage(message);
+//
+//        return restore(errorMessage);
     }
 }

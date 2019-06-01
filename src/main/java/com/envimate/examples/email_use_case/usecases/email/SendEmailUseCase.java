@@ -25,11 +25,11 @@ package com.envimate.examples.email_use_case.usecases.email;
 import com.envimate.examples.email_use_case.services.EmailService;
 import com.google.inject.Inject;
 
-public class SendEmail {
+public class SendEmailUseCase {
     private final EmailService emailService;
 
     @Inject
-    public SendEmail(final EmailService emailService) {
+    public SendEmailUseCase(final EmailService emailService) {
         this.emailService = emailService;
     }
 

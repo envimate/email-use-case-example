@@ -1,5 +1,5 @@
 {
-  "sender": "sender@example.com",
+  "sender": "senderexample.com",
   "receiver": "receiver@example.com",
   "subject": "Hello world!",
   "body": "Hello from Sender to Receiver!"

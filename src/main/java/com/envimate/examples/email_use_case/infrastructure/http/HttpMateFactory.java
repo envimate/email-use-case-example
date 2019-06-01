@@ -21,8 +21,7 @@
 
 package com.envimate.examples.email_use_case.infrastructure.http;
 
-import com.envimate.examples.email_use_case.usecases.ErrorDTO;
-import com.envimate.examples.email_use_case.usecases.email.SendEmail;
+import com.envimate.examples.email_use_case.usecases.email.SendEmailUseCase;
 import com.envimate.httpmate.HttpMate;
 import com.envimate.httpmate.HttpMateChainKeys;
 import com.envimate.httpmate.http.ContentType;
@@ -39,7 +38,6 @@ import lombok.ToString;
 
 import static com.envimate.examples.email_use_case.usecases.ErrorMessage.errorMessage;
 import static com.envimate.httpmate.convenience.configurators.exceptions.ExceptionMappingConfigurator.toMapExceptions;
-import static com.envimate.httpmate.http.HttpRequestMethod.POST;
 import static com.envimate.httpmate.mapmate.MapMateSerializerAndDeserializer.mapMate;
 import static com.envimate.httpmate.usecases.Configurators.toCreateUseCaseInstancesUsing;
 
@@ -60,9 +58,10 @@ public final class HttpMateFactory {
 
     public HttpMate httpMate() {
         return HttpMate.anHttpMateConfiguredAs(UseCaseDrivenBuilder.USE_CASE_DRIVEN)
-                .servingTheUseCase(SendEmail.class)
-                .forRequestPath("/api/sendEmail")
-                .andRequestMethod(POST)
+                .post("/api/sendEmail", SendEmailUseCase.class)
+                .post("/<version>/api/sendEmail", SendEmailUseCase.class)
+                .get("/api/sendEmail", SendEmailUseCase.class)
+                .get("/api/sendEmailWithPathParameters/<sender>/<receiver>/<subject>/<body>", SendEmailUseCase.class)
                 .mappingRequestsAndResponsesUsing(
                         mapMate()
                                 .assumingTheDefaultContentType(ContentType.json())
@@ -79,11 +78,12 @@ public final class HttpMateFactory {
                         })
                         .ofType(AggregatedValidationException.class)
                         .toResponsesUsing((exception, metaData) -> {
-                            metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 400);
-                            metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(ErrorDTO.error(exception)));
+                            throw new NullPointerException();
+//                            metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(ErrorDTO.error(exception)));
+//                            metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 400);
                         })
                         .ofAllRemainingTypesUsing((exception, metaData) -> {
-                            exception.printStackTrace();
+                            metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 500);
                             metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(errorMessage(exception.getMessage())));
                         })
                 )
