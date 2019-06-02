@@ -19,12 +19,11 @@ public class Email {
     public final Subject subject;
     public final Body body;
 
-    public static Email restore(final String version, final Sender sender,
+    public static Email restore(final Sender sender,
                                 final Receiver receiver,
                                 final Subject subject,
                                 final Body body) {
 
-        System.out.printf("Got version %s %n", version);
         RequiredParameterValidator.ensureNotNull(sender, "sender");
         RequiredParameterValidator.ensureNotNull(receiver, "receiver");
         RequiredParameterValidator.ensureNotNull(subject, "subject");
