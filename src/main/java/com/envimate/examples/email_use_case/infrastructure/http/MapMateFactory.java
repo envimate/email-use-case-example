@@ -37,13 +37,6 @@ public final class MapMateFactory {
         return MapMate.aMapMate()
                 .forPackage("com.envimate.examples.email_use_case")
                 .usingMarshallers(new Gson()::toJson, new Gson()::fromJson)
-                .build();
-    }
-
-    public static MapMate mapMateWithExceptionRegistration() {
-        return MapMate.aMapMate()
-                .forPackage("com.envimate.examples.email_use_case")
-                .usingMarshallers(new Gson()::toJson, new Gson()::fromJson)
                 .withExceptionIndicatingValidationError(CustomTypeValidationException.class)
                 .build();
     }
