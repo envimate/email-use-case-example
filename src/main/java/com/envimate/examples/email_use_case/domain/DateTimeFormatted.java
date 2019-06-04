@@ -29,7 +29,7 @@ public final class DateTimeFormatted {
         return fromString(now);
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value;
     }
 }

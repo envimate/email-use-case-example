@@ -17,7 +17,7 @@ public final class Subject {
         return new Subject(validated);
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value;
     }
 }

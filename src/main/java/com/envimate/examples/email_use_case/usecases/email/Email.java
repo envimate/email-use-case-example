@@ -1,8 +1,7 @@
 package com.envimate.examples.email_use_case.usecases.email;
 
 import com.envimate.examples.email_use_case.domain.Body;
-import com.envimate.examples.email_use_case.domain.Receiver;
-import com.envimate.examples.email_use_case.domain.Sender;
+import com.envimate.examples.email_use_case.domain.EmailAddress;
 import com.envimate.examples.email_use_case.domain.Subject;
 import com.envimate.examples.email_use_case.validation.RequiredParameterValidator;
 import lombok.AccessLevel;
@@ -14,13 +13,13 @@ import lombok.ToString;
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Email {
-    public final Sender sender;
-    public final Receiver receiver;
+    public final EmailAddress sender;
+    public final EmailAddress receiver;
     public final Subject subject;
     public final Body body;
 
-    public static Email restore(final Sender sender,
-                                final Receiver receiver,
+    public static Email restore(final EmailAddress sender,
+                                final EmailAddress receiver,
                                 final Subject subject,
                                 final Body body) {
 

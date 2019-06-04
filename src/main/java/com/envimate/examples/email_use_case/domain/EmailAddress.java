@@ -9,15 +9,15 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Receiver {
+public final class EmailAddress {
     private final String value;
 
-    public static Receiver fromString(final String value) {
+    public static EmailAddress fromString(final String value) {
         final String validated = EmailAddressValidator.ensureEmailAddress(value, "receiver");
-        return new Receiver(validated);
+        return new EmailAddress(validated);
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value;
     }
 }

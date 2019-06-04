@@ -53,7 +53,7 @@ public class ErrorDTO {
                         }
                 ).collect(Collectors.joining(","));
 
-        final ErrorMessage errorMessage = ErrorMessage.errorMessage(message);
+        final ErrorMessage errorMessage = ErrorMessage.fromStringValue(message);
 
         return restore(errorMessage);
     }

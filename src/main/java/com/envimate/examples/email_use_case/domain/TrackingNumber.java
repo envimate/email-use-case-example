@@ -23,7 +23,7 @@ public final class TrackingNumber {
         return fromString(UUID.randomUUID().toString());
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value.toString();
     }
 }

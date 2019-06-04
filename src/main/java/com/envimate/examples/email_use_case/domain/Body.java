@@ -17,7 +17,7 @@ public final class Body {
         return new Body(emailAddress);
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value;
     }
 }

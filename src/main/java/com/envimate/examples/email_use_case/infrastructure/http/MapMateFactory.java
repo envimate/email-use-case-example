@@ -21,73 +21,30 @@
 
 package com.envimate.examples.email_use_case.infrastructure.http;
 
-import com.envimate.examples.email_use_case.domain.Sender;
-import com.envimate.examples.email_use_case.usecases.ErrorDTO;
-import com.envimate.examples.email_use_case.usecases.ErrorMessage;
-import com.envimate.examples.email_use_case.usecases.email.SendEmailUseCase;
 import com.envimate.examples.email_use_case.validation.CustomTypeValidationException;
-import com.envimate.mapmate.deserialization.Deserializer;
-import com.envimate.mapmate.deserialization.validation.ExceptionMappingWithPropertyPath;
-import com.envimate.mapmate.deserialization.validation.ValidationError;
-import com.envimate.mapmate.filters.ClassFilters;
-import com.envimate.mapmate.serialization.Serializer;
+import com.envimate.mapmate.builder.MapMate;
 import com.google.gson.Gson;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-
-import static com.envimate.mapmate.filters.ClassFilters.allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed;
 
 @ToString
 @EqualsAndHashCode
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MapMateFactory {
-    private MapMateFactory() {
-    }
-
-    public static Serializer serializer() {
-        return Serializer.aSerializer()
-                .thatScansThePackage(Sender.class.getPackageName())
-                .forCustomPrimitives()
-                .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
-                .thatAre()
-                .serializedUsingTheMethodNamed("internalValueForMapping")
-                .thatScansThePackage(ErrorMessage.class.getPackageName())
-                .forCustomPrimitives()
-                .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
-                .thatAre()
-                .serializedUsingTheMethodNamed("internalValueForMapping")
-                .thatScansThePackage(SendEmailUseCase.class.getPackageName())
-                .forDataTransferObjects()
-                .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
-                .thatAre()
-                .serializedByItsPublicFields()
-                .thatScansThePackage(ErrorDTO.class.getPackageName())
-                .forDataTransferObjects()
-                .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
-                .thatAre()
-                .serializedByItsPublicFields()
-                .withJsonMarshaller(new Gson()::toJson)
+    public static MapMate mapMate() {
+        return MapMate.aMapMate()
+                .forPackage("com.envimate.examples.email_use_case")
+                .usingMarshallers(new Gson()::toJson, new Gson()::fromJson)
                 .build();
     }
 
-    public static Deserializer deserializer() {
-        return Deserializer.aDeserializer()
-                .thatScansThePackage(Sender.class.getPackageName())
-                .forCustomPrimitives()
-                .filteredBy(allClassesThatHaveAPublicStringMethodWithZeroArgumentsNamed("internalValueForMapping"))
-                .thatAre()
-                .deserializedUsingTheStaticMethodWithSingleStringArgument()
-                .thatScansThePackage(SendEmailUseCase.class.getPackageName())
-                .forDataTransferObjects()
-                .filteredBy(ClassFilters.havingFactoryMethodNamed("restore"))
-                .thatAre()
-                .deserializedUsingTheFactoryMethodNamed("restore")
-                .withJsonUnmarshaller(new Gson()::fromJson)
-                .mappingExceptionUsing(CustomTypeValidationException.class, new ExceptionMappingWithPropertyPath() {
-                    @Override
-                    public ValidationError map(final Throwable t, final String propertyPath) {
-                        return new ValidationError(t.getMessage(), propertyPath);
-                    }
-                })
+    public static MapMate mapMateWithExceptionRegistration() {
+        return MapMate.aMapMate()
+                .forPackage("com.envimate.examples.email_use_case")
+                .usingMarshallers(new Gson()::toJson, new Gson()::fromJson)
+                .withExceptionIndicatingValidationError(CustomTypeValidationException.class)
                 .build();
     }
 }

@@ -12,12 +12,12 @@ import lombok.ToString;
 public final class ErrorMessage {
     private final String value;
 
-    public static ErrorMessage errorMessage(final String value) {
+    public static ErrorMessage fromStringValue(final String value) {
         final String validated = LengthValidator.ensureMinLength(value, 1, "errorMessage");
         return new ErrorMessage(validated);
     }
 
-    public String internalValueForMapping() {
+    public String stringValue() {
         return this.value;
     }
 }

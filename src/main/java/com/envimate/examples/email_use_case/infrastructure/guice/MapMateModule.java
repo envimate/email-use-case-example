@@ -22,13 +22,15 @@
 package com.envimate.examples.email_use_case.infrastructure.guice;
 
 import com.envimate.examples.email_use_case.infrastructure.http.MapMateFactory;
+import com.envimate.mapmate.builder.MapMate;
 import com.envimate.mapmate.deserialization.Deserializer;
 import com.envimate.mapmate.serialization.Serializer;
 
 public class MapMateModule extends EmailUsecaseModule {
     @Override
     protected void bindDependencies() {
-        this.bind(Serializer.class).toInstance(MapMateFactory.serializer());
-        this.bind(Deserializer.class).toInstance(MapMateFactory.deserializer());
+        final MapMate mapMate = MapMateFactory.mapMate();
+        this.bind(Serializer.class).toInstance(mapMate.serializer());
+        this.bind(Deserializer.class).toInstance(mapMate.deserializer());
     }
 }
