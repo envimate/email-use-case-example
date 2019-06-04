@@ -13,7 +13,7 @@ public final class EmailAddress {
     private final String value;
 
     public static EmailAddress fromString(final String value) {
-        final String validated = EmailAddressValidator.ensureEmailAddress(value, "receiver");
+        final String validated = EmailAddressValidator.ensureEmailAddress(value, "emailAddress");
         return new EmailAddress(validated);
     }
 

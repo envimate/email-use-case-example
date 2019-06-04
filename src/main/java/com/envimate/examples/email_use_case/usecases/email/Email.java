@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Email {
+public final class Email {
     public final EmailAddress sender;
     public final EmailAddress receiver;
     public final Subject subject;
@@ -22,10 +22,8 @@ public class Email {
                                 final EmailAddress receiver,
                                 final Subject subject,
                                 final Body body) {
-
         RequiredParameterValidator.ensureNotNull(sender, "sender");
         RequiredParameterValidator.ensureNotNull(receiver, "receiver");
-        RequiredParameterValidator.ensureNotNull(subject, "subject");
         RequiredParameterValidator.ensureNotNull(body, "body");
         return new Email(sender, receiver, subject, body);
     }
