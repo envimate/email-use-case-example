@@ -1,6 +1,6 @@
 {
-  "sender": "sendemple.com",
-  "receiver": "receiveexample.com",
+  "sender": "not-a-valid-sender-value",
+  "receiver": "not-a-valid-receiver-value",
   "subject": "Hello world!",
   "body": "Hello from Sender to Receiver!"
 }

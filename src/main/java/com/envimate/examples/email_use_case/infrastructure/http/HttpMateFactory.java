@@ -37,7 +37,7 @@ import com.google.inject.Injector;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import static com.envimate.examples.email_use_case.usecases.ErrorMessage.fromStringValue;
+import static com.envimate.examples.email_use_case.usecases.ErrorMessage.fromString;
 import static com.envimate.httpmate.convenience.configurators.exceptions.ExceptionMappingConfigurator.toMapExceptions;
 import static com.envimate.httpmate.mapmate.MapMateSerializerAndDeserializer.mapMate;
 import static com.envimate.httpmate.usecases.Configurators.toCreateUseCaseInstancesUsing;
@@ -82,7 +82,7 @@ public final class HttpMateFactory {
                         .ofAllRemainingTypesUsing((exception, metaData) -> {
                             metaData.set(HttpMateChainKeys.RESPONSE_STATUS, 500);
                             exception.printStackTrace();
-                            metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(fromStringValue("Unexpected error occurred")));
+                            metaData.set(HttpMateChainKeys.RESPONSE_STRING, this.serializer.serializeToJson(fromString("Unexpected error occurred")));
                         })
                 )
                 .build();

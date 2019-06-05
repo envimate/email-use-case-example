@@ -12,7 +12,7 @@ import lombok.ToString;
 public final class ErrorMessage {
     private final String value;
 
-    public static ErrorMessage fromStringValue(final String value) {
+    public static ErrorMessage fromString(final String value) {
         final String validated = LengthValidator.ensureMinLength(value, 1, "errorMessage");
         return new ErrorMessage(validated);
     }
