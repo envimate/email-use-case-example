@@ -14,13 +14,13 @@ import java.util.UUID;
 public final class TrackingNumber {
     private final UUID value;
 
-    public static TrackingNumber fromString(final String value) {
+    public static TrackingNumber fromStringValue(final String value) {
         final UUID validated = UuidValidator.ensureUuid(value, "trackingNumber");
         return new TrackingNumber(validated);
     }
 
     public static TrackingNumber newUnique() {
-        return fromString(UUID.randomUUID().toString());
+        return fromStringValue(UUID.randomUUID().toString());
     }
 
     public String stringValue() {

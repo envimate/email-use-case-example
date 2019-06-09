@@ -12,7 +12,7 @@ import lombok.ToString;
 public final class Body {
     private final String value;
 
-    public static Body fromString(final String value) {
+    public static Body fromStringValue(final String value) {
         final String emailAddress = LengthValidator.ensureLength(value, 1, 1000, "body");
         return new Body(emailAddress);
     }

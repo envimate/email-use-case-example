@@ -12,7 +12,7 @@ import lombok.ToString;
 public final class Subject {
     private final String value;
 
-    public static Subject fromString(final String value) {
+    public static Subject fromStringValue(final String value) {
         final String validated = LengthValidator.ensureLength(value, 1, 256, "subject");
         return new Subject(validated);
     }

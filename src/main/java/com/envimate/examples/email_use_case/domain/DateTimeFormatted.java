@@ -19,14 +19,14 @@ public final class DateTimeFormatted {
 
     private final String value;
 
-    public static DateTimeFormatted fromString(final String value) {
+    public static DateTimeFormatted fromStringValue(final String value) {
         final String sanitized = RegexValidator.matchingRegexValue(value, PATTERN, "dateTimeFormatted");
         return new DateTimeFormatted(sanitized);
     }
 
     public static DateTimeFormatted currentDateTimeFormatted() {
         final String now = DATE_TIME_FORMATTER.format(ZonedDateTime.now());
-        return fromString(now);
+        return fromStringValue(now);
     }
 
     public String stringValue() {

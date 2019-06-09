@@ -15,7 +15,7 @@ public class Receipt {
     public final TrackingNumber trackingNumber;
     public final DateTimeFormatted date;
 
-    public static Receipt restore(final TrackingNumber trackingNumber, final DateTimeFormatted dateTimeFormatted) {
+    public static Receipt deserialize(final TrackingNumber trackingNumber, final DateTimeFormatted dateTimeFormatted) {
         RequiredParameterValidator.ensureNotNull(trackingNumber, "trackingNumber");
         RequiredParameterValidator.ensureNotNull(dateTimeFormatted, "dateTimeFormatted");
         return new Receipt(trackingNumber, dateTimeFormatted);
@@ -24,6 +24,7 @@ public class Receipt {
     public static Receipt newReceipt() {
         final TrackingNumber trackingNumber = TrackingNumber.newUnique();
         final DateTimeFormatted dateTimeFormatted = DateTimeFormatted.currentDateTimeFormatted();
-        return restore(trackingNumber, dateTimeFormatted);
+        return deserialize(trackingNumber, dateTimeFormatted);
     }
 }
+

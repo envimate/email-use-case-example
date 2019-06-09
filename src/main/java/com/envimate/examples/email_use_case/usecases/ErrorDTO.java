@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class ErrorDTO {
     public final ErrorMessage message;
 
-    public static ErrorDTO restore(final ErrorMessage message) {
+    public static ErrorDTO deserialize(final ErrorMessage message) {
         RequiredParameterValidator.ensureNotNull(message, "message of the Error");
         return new ErrorDTO(message);
     }
@@ -53,8 +53,8 @@ public class ErrorDTO {
                         }
                 ).collect(Collectors.joining(","));
 
-        final ErrorMessage errorMessage = ErrorMessage.fromString(message);
+        final ErrorMessage errorMessage = ErrorMessage.fromStringValue(message);
 
-        return restore(errorMessage);
+        return deserialize(errorMessage);
     }
 }

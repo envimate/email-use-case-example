@@ -12,7 +12,7 @@ import lombok.ToString;
 public final class EmailAddress {
     private final String value;
 
-    public static EmailAddress fromString(final String value) {
+    public static EmailAddress fromStringValue(final String value) {
         final String validated = EmailAddressValidator.ensureEmailAddress(value, "emailAddress");
         return new EmailAddress(validated);
     }

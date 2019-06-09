@@ -18,7 +18,7 @@ public final class Email {
     public final Subject subject;
     public final Body body;
 
-    public static Email restore(final EmailAddress sender,
+    public static Email deserialize(final EmailAddress sender,
                                 final EmailAddress receiver,
                                 final Subject subject,
                                 final Body body) {

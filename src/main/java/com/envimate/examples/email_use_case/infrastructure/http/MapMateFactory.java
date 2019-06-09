@@ -34,9 +34,8 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MapMateFactory {
     public static MapMate mapMate() {
-        return MapMate.aMapMate()
-                .forPackage("com.envimate.examples.email_use_case")
-                .usingMarshallers(new Gson()::toJson, new Gson()::fromJson)
+        return MapMate.aMapMate("com.envimate.examples.email_use_case")
+                .usingJsonMarshallers(new Gson()::toJson, new Gson()::fromJson)
                 .withExceptionIndicatingValidationError(CustomTypeValidationException.class)
                 .build();
     }
